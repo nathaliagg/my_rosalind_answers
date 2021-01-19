@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
-"""tests for ini5.py"""
+"""tests for hamm.py"""
+
 
 import os
 import re
 from subprocess import getstatusoutput
 
-prg = '../ini5.py'
-wrong_file = "test_data/a_file_name.txt"
-bad_input = "test_data/bad_input_ini5.txt"
-good_input = "test_data/good_input_ini5.txt"
-output_program = "output_ini5.txt"
-good_output = "output_ini5.txt"
 
+prg = '../hamm.py'
+bad_file1 = "test_data/test_bad_input_hamm_1.txt"
+bad_file2 = "test_data/test_bad_input_hamm_2.txt"
+good_file = "test_data/test_good_input_hamm.txt"
+good_output = '7'
 
 # --------------------------------------------------
 def test_exists():
@@ -42,43 +42,32 @@ def test_no_args():
 
 
 # --------------------------------------------------
-def test_file_doesnt_exist():
-    """Output when file does not exist"""
+def test_bad_file1():
+    """Test with a file with more than 10 seqs"""
 
-    rv, out = getstatusoutput(f'{prg} {wrong_file}')
+    rv, out = getstatusoutput(f'{prg} {bad_file1}')
     assert rv != 0
-    error_string = f"No such file or directory: '{wrong_file}'"
+    error_string = "Limit of 2 nucleotide sequence per file"
     assert re.findall(error_string, out, re.IGNORECASE)
 
 
 # --------------------------------------------------
-def test_bad_input_file():
-    """Output when file has more than 1000 lines"""
+def test_bad_file2():
+    """Test with long sequence"""
 
-    rv, out = getstatusoutput(f'{prg} {bad_input}')
+    rv, out = getstatusoutput(f'{prg} {bad_file2}')
     assert rv != 0
-    error_string = f"NumberLinesError: Input file must have less than 1000 lines"
+    error_string = "BadSequenceLength: Sequence must be shorter than 1000 nt."
     assert re.findall(error_string, out, re.IGNORECASE)
 
 
 # --------------------------------------------------
-def test_good_input_file():
-    """Output when file is good"""
+def test_good_args():
+    """Test with a good input file"""
 
-    rv, out = getstatusoutput(f'{prg} {good_input}')
+    rv, out = getstatusoutput(f'{prg} {good_file}')
     assert rv == 0
-    assert out == ""
-    assert os.path.exists(output_program)
-
-
-# --------------------------------------------------
-def test_got_even_lines():
-    """Test if program got even lines"""
-
-    output_test = open(good_output).read().rstrip().split("\n")
-    good_out_list = open(output_program).read().rstrip().split("\n")
-
-    assert output_test == good_out_list
+    assert out == good_output
 
 
 # --------------------------------------------------
