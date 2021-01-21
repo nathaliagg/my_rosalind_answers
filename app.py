@@ -6,7 +6,6 @@ Purpose: Rosalind App
 
 from subprocess import getstatusoutput
 import streamlit as st
-import glob
 
 
 # --------------------------------------------------
