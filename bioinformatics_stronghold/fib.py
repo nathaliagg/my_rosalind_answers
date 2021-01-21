@@ -21,15 +21,10 @@ def get_args():
         litter of k rabbit pairs.""",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('int_n',
-                        metavar='int',
-                        type=int,
-                        help='Integer n, n <= 40')
-
-    parser.add_argument('int_k',
-                        metavar='int',
-                        type=int,
-                        help='Integer k, k <= 5')
+    parser.add_argument('input_file',
+                        metavar='FILE',
+                        type=argparse.FileType('rt'),
+                        help='Input file, two integers n <= 40 and k <= 5')
 
     args = parser.parse_args()
 
@@ -43,11 +38,13 @@ def main():
     args = get_args()
     # print(args)
 
-    test_n(args.int_n)
+    n, k = [int(x) for x in args.input_file.read().rstrip().split()]
 
-    test_k(args.int_k)
+    test_n(n)
 
-    print(fibonacci(args.int_n, args.int_k))
+    test_k(k)
+
+    print(fibonacci(n, k))
 
 
 # --------------------------------------------------

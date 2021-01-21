@@ -25,30 +25,10 @@ def get_args():
         c through d, inclusively.""",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('a_string',
-                        metavar='str',
-                        type=str,
-                        help='A string < 200 letters')
-
-    parser.add_argument('int_a',
-                        metavar='int',
-                        type=int,
-                        help='Integer a')
-
-    parser.add_argument('int_b',
-                        metavar='int',
-                        type=int,
-                        help='Integer b')
-
-    parser.add_argument('int_c',
-                        metavar='int',
-                        type=int,
-                        help='Integer c')
-
-    parser.add_argument('int_d',
-                        metavar='int',
-                        type=int,
-                        help='Integer d')
+    parser.add_argument('input_file',
+                        metavar='FILE',
+                        type=argparse.FileType('rt'),
+                        help='Input file, string < 200, a, b, c, d integers')
 
     args = parser.parse_args()
 
@@ -63,10 +43,15 @@ def main():
     args = get_args()
     # print(args)
 
-    test_length_string(args.a_string)
+    list_items = args.input_file.read().rstrip().split()
 
-    print(make_slices(args.a_string, args.int_a, args.int_b,
-                      args.int_c, args.int_d))
+    string = list_items[0]
+
+    test_length_string(string)
+
+    integers = [int(x) for x in list_items[1:]]
+
+    print(make_slices(string, integers))
 
 
 # --------------------------------------------------
@@ -74,12 +59,14 @@ def test_length_string(s):
     """Test length of string, return error if > 200 letters"""
 
     if len(s) >= 200:
-        raise LengthString(f"Lenght of string {len(s)} must be less than 200")
+        raise LengthString(f"Length of string must be less than 200")
 
 
 # --------------------------------------------------
-def make_slices(s, a, b, c, d):
+def make_slices(s, list_ints):
     """Make a-b and c-d slices of string s, inclusively"""
+
+    a, b, c, d = list_ints
 
     list_slices = [s[a:b+1], s[c:d+1]]
     sliced_string = " ".join(list_slices)

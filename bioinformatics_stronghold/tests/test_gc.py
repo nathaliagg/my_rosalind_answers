@@ -9,10 +9,10 @@ from subprocess import getstatusoutput
 
 
 prg = '../gc.py'
-good_file = 'test_data/test_good_input_gc.txt'
+good_file = 'test_data/good_input_gc.txt'
 good_output = 'Rosalind_0808\n60.919540'
-bad_file1 = 'test_data/test_bad_input_gc_1.txt'
-bad_file2 = 'test_data/test_bad_input_gc_2.txt'
+bad_file1 = 'test_data/bad_input_gc_1.txt'
+bad_file2 = 'test_data/bad_input_gc_2.txt'
 
 # --------------------------------------------------
 def test_exists():

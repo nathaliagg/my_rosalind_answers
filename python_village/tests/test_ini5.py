@@ -10,8 +10,6 @@ prg = '../ini5.py'
 wrong_file = "test_data/a_file_name.txt"
 bad_input = "test_data/bad_input_ini5.txt"
 good_input = "test_data/good_input_ini5.txt"
-output_program = "output_ini5.txt"
-good_output = "output_ini5.txt"
 
 
 # --------------------------------------------------
@@ -67,18 +65,7 @@ def test_good_input_file():
 
     rv, out = getstatusoutput(f'{prg} {good_input}')
     assert rv == 0
-    assert out == ""
-    assert os.path.exists(output_program)
-
-
-# --------------------------------------------------
-def test_got_even_lines():
-    """Test if program got even lines"""
-
-    output_test = open(good_output).read().rstrip().split("\n")
-    good_out_list = open(output_program).read().rstrip().split("\n")
-
-    assert output_test == good_out_list
-
+    output = "Yes, brave Sir Robin turned about\nAnd gallantly he chickened out\nBravely talking to his feet\nHe beat a very brave retreat"
+    assert out == output
 
 # --------------------------------------------------

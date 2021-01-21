@@ -27,10 +27,10 @@ def get_args():
         by spaces, which reflect the count for A, C, G, and T nucleotides.""",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('string',
-                        metavar='str',
-                        type=str,
-                        help='A string of nucleotides < 1000 in length')
+    parser.add_argument('input_file',
+                        metavar='FILE',
+                        type=argparse.FileType('rt'),
+                        help='Input file, string < 1000 length')
 
     args = parser.parse_args()
 
@@ -44,12 +44,13 @@ def main():
     args = get_args()
     # print(args)
 
-    test_nucleotides(args.string)
+    dna = args.input_file.read().rstrip().split()[0]
 
-    test_len_seq(args.string)
+    test_nucleotides(dna)
 
-    for nt in count_nt(args.string):
-        print(nt, end=' ')
+    test_len_seq(dna)
+
+    print(count_nt(dna))
 
 
 # --------------------------------------------------
@@ -88,7 +89,9 @@ def count_nt(string):
     for nt in ['A', 'C', 'G', 'T']:
         counts.append(string.count(nt))
 
-    return counts
+    s_counts = " ".join([str(x) for x in counts])
+
+    return s_counts
 
 
 # --------------------------------------------------

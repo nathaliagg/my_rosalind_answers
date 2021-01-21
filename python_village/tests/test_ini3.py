@@ -9,12 +9,8 @@ from subprocess import getstatusoutput
 
 
 prg = '../ini3.py'
-a_string = 'thisistheteststring,butamuchlongerstring.HumptyDumptysatonawallHumptyDumptyhadagreatfallAlltheKingshorsesandalltheKingsmenCouldntputHumptyDumptyinhisplaceagainHumptyDumptysatonawallHumptyDumptyhadagreatfallAlltheKingshorsesandalltheKingsmenCouldntputHumptyDumptyinhisplaceagain.'
-b_string = 'HumptyDumptysatonawallHumptyDumptyhadagreatfallAlltheKingshorsesandalltheKingsmenCouldntputHumptyDumptyinhisplaceagain.'
-a = 22
-b = 27
-c = 97
-d = 102
+bad_input = 'test_data/bad_input_ini3.txt'
+good_input = 'test_data/good_input_ini3.txt'
 
 
 # --------------------------------------------------
@@ -40,7 +36,7 @@ def test_no_args():
 
     rv, out = getstatusoutput(f'{prg}')
     assert rv != 0
-    error_string = 'following arguments are required: str, int, int, int, int'
+    error_string = 'following arguments are required: FILE'
     assert re.findall(error_string, out, re.IGNORECASE)
 
 
@@ -48,9 +44,9 @@ def test_no_args():
 def test_len_str():
     """Output when the length of the string argument is greater than 200"""
 
-    rv, out = getstatusoutput(f'{prg} {a_string} {a} {b} {c} {d}')
+    rv, out = getstatusoutput(f'{prg} {bad_input}')
     assert rv != 0
-    error_string = f"LengthString: Lenght of string {len(a_string)} must be less than 200"
+    error_string = f"LengthString: Length of string must be less than 200"
     assert re.findall(error_string, out, re.IGNORECASE)
 
 
@@ -58,7 +54,7 @@ def test_len_str():
 def test_int_args():
     """Output when all arguments are correct"""
 
-    rv, out = getstatusoutput(f'{prg} {b_string} {a} {b} {c} {d}')
+    rv, out = getstatusoutput(f'{prg} {good_input}')
     assert rv == 0
     assert out == 'Humpty Dumpty'
 

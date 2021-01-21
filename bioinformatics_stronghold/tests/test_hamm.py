@@ -9,9 +9,9 @@ from subprocess import getstatusoutput
 
 
 prg = '../hamm.py'
-bad_file1 = "test_data/test_bad_input_hamm_1.txt"
-bad_file2 = "test_data/test_bad_input_hamm_2.txt"
-good_file = "test_data/test_good_input_hamm.txt"
+bad_file1 = "test_data/bad_input_hamm_1.txt"
+bad_file2 = "test_data/bad_input_hamm_2.txt"
+good_file = "test_data/good_input_hamm.txt"
 good_output = '7'
 
 # --------------------------------------------------

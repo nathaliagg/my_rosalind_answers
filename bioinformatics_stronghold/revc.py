@@ -27,10 +27,10 @@ def get_args():
         string.""",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('string',
-                        metavar='str',
-                        type=str,
-                        help='A string of DNA nucleotides')
+    parser.add_argument('input_file',
+                        metavar='FILE',
+                        type=argparse.FileType('rt'),
+                        help='Input file, string')
 
     args = parser.parse_args()
 
@@ -44,11 +44,13 @@ def main():
     args = get_args()
     # print(args)
 
-    test_nucleotides(args.string)
+    dna = args.input_file.read().rstrip().split()[0]
 
-    test_len_seq(args.string)
+    test_nucleotides(dna)
 
-    print(rev_complement(args.string))
+    test_len_seq(dna)
+
+    print(rev_complement(dna))
 
 
 # --------------------------------------------------

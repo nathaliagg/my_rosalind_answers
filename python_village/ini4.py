@@ -24,15 +24,10 @@ def get_args():
         a through b, inclusively.""",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('int_a',
-                        metavar='int',
-                        type=int,
-                        help='Integer a, a < b')
-
-    parser.add_argument('int_b',
-                        metavar='int',
-                        type=int,
-                        help='Integer b, b < 10000')
+    parser.add_argument('input_file',
+                        metavar='FILE',
+                        type=argparse.FileType('rt'),
+                        help='Input file, two integers a < b < 10000')
 
     args = parser.parse_args()
 
@@ -46,9 +41,11 @@ def main():
     args = get_args()
     # print(args)
 
-    test_integers(args.int_a, args.int_b)
+    a, b = [int(x) for x in args.input_file.read().rstrip().split()]
 
-    print(sum_of_odds(args.int_a, args.int_b))
+    test_integers(a, b)
+
+    print(sum_of_odds(a, b))
 
 
 # --------------------------------------------------
@@ -56,10 +53,10 @@ def test_integers(a, b):
     """Test if a < b < 10000"""
 
     if b > 10000:
-        raise IntegerValueError(f" b, {b}, must be less than 10000")
+        raise IntegerValueError(f" b must be less than 10000")
 
     if a > b:
-        raise IntegerValueError(f"a, {a}, must be less than {b}")
+        raise IntegerValueError(f"a must be less than b")
 
 
 # --------------------------------------------------

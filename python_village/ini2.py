@@ -9,6 +9,10 @@ Purpose: Python Village - Variables and Some Arithmetic
 import argparse
 
 
+class BadIntegerValue(Exception):
+    """Base class for other exception """
+
+
 # --------------------------------------------------
 def get_args():
     """ Get command-line arguments """
@@ -19,21 +23,14 @@ def get_args():
         hypothenuse of the right triangle whose legs have lenghts a and b.""",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('int_a',
-                        metavar='int',
-                        type=int,
-                        choices=range(1, 1001),
-                        help='Integer a < 1000')
-
-    parser.add_argument('int_b',
-                        metavar='int',
-                        type=int,
-                        choices=range(1, 1001),
-                        help='Integer b < 1000')
+    parser.add_argument('input_file',
+                        metavar='FILE',
+                        type=argparse.FileType('rt'),
+                        help='Input file, max 2 integers')
 
     args = parser.parse_args()
 
-    return args
+    return args.input_file.read().rstrip().split()
 
 
 # --------------------------------------------------
@@ -42,14 +39,24 @@ def main():
     with a and b legs"""
 
     args = get_args()
-    # print(args)
+    list_int = [int(x) for x in args]
 
-    a = args.int_a
-    b = args.int_b
+    for i in list_int:
+        test_int(i)
+
+    a, b = list_int
 
     h = (a*a) + (b*b)
 
     print(h)
+
+
+# --------------------------------------------------
+def test_int(v):
+    """Test if integer v is less than 1000"""
+
+    if v >= 1000:
+        raise BadIntegerValue("Integer must be less than 1000.")
 
 
 # --------------------------------------------------

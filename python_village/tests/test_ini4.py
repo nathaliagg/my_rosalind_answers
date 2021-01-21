@@ -7,10 +7,9 @@ import re
 from subprocess import getstatusoutput
 
 prg = '../ini4.py'
-a_right = 100
-b_right = 200
-a_wrong = 300
-b_wrong = 20000
+good_input = "test_data/good_input_ini4.txt"
+bad_input1 = "test_data/bad_input1_ini4.txt"
+bad_input2 = "test_data/bad_input2_ini4.txt"
 
 # --------------------------------------------------
 def test_exists():
@@ -35,7 +34,7 @@ def test_no_args():
 
     rv, out = getstatusoutput(f'{prg}')
     assert rv != 0
-    error_string = 'following arguments are required: int, int'
+    error_string = 'following arguments are required: FILE'
     assert re.findall(error_string, out, re.IGNORECASE)
 
 
@@ -43,9 +42,9 @@ def test_no_args():
 def test_b():
     """Test if b < 10000"""
 
-    rv, out = getstatusoutput(f'{prg} {a_right} {b_wrong}')
+    rv, out = getstatusoutput(f'{prg} {bad_input2}')
     assert rv != 0
-    error_string = f"IntegerValueError:  b, {b_wrong}, must be less than 10000"
+    error_string = f"IntegerValueError:  b must be less than 10000"
     assert re.findall(error_string, out, re.IGNORECASE)
 
 
@@ -53,9 +52,9 @@ def test_b():
 def test_a():
     """Test if a < b"""
 
-    rv, out = getstatusoutput(f'{prg} {a_wrong} {b_right}')
+    rv, out = getstatusoutput(f'{prg} {bad_input1}')
     assert rv != 0
-    error_string = f"IntegerValueError: a, {a_wrong}, must be less than {b_right}"
+    error_string = f"IntegerValueError: a must be less than b"
     assert re.findall(error_string, out, re.IGNORECASE)
 
 
@@ -63,7 +62,7 @@ def test_a():
 def test_correct_output():
     """Test correct output"""
 
-    rv, out = getstatusoutput(f'{prg} {a_right} {b_right}')
+    rv, out = getstatusoutput(f'{prg} {good_input}')
     assert rv == 0
     assert out == str(7500)
 

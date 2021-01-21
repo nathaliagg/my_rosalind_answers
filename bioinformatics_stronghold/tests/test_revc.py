@@ -9,8 +9,8 @@ from subprocess import getstatusoutput
 
 
 prg = '../revc.py'
-good_string = 'AAAACCCGGT'
-bad_string = 'AAAACCCGGTZZ'
+good_input = 'test_data/good_input_revc.txt'
+bad_input = 'test_data/bad_input_revc.txt'
 good_output = 'ACCGGGTTTT'
 
 # --------------------------------------------------
@@ -36,7 +36,7 @@ def test_no_args():
 
     rv, out = getstatusoutput(f'{prg}')
     assert rv != 0
-    error_string = 'following arguments are required: str'
+    error_string = 'following arguments are required: FILE'
     assert re.findall(error_string, out, re.IGNORECASE)
 
 
@@ -44,7 +44,7 @@ def test_no_args():
 def test_bad_args():
     """Test with a bad string == other than A, T, C, G"""
 
-    rv, out = getstatusoutput(f'{prg} "{bad_string}"')
+    rv, out = getstatusoutput(f'{prg} "{bad_input}"')
     assert rv != 0
     error_string = "Bad nucleotide sequence. Only ATCG allowed."
     assert re.findall(error_string, out, re.IGNORECASE)
@@ -54,7 +54,7 @@ def test_bad_args():
 def test_good_output():
     """Test output with a good string"""
 
-    rv, out = getstatusoutput(f'{prg} "{good_string}"')
+    rv, out = getstatusoutput(f'{prg} "{good_input}"')
     assert rv == 0
     assert out == good_output
 

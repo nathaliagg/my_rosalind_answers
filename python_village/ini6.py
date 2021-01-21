@@ -25,10 +25,10 @@ def get_args():
         be in any order.""",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-    parser.add_argument('string',
-                        metavar='str',
-                        type=str,
-                        help='A string, 10000 letters max.')
+    parser.add_argument('input_file',
+                        metavar='FILE',
+                        type=argparse.FileType('rt'),
+                        help='Input file, string < 10000 letters')
 
     args = parser.parse_args()
 
@@ -41,9 +41,11 @@ def main():
 
     args = get_args()
 
-    test_length_string(args.string)
+    string = args.input_file.read().rstrip()
 
-    for k,v in get_word_count(args.string).items():
+    test_length_string(string)
+
+    for k,v in get_word_count(string).items():
         print(k,v)
 
 

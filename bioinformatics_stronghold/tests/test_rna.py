@@ -9,8 +9,8 @@ from subprocess import getstatusoutput
 
 
 prg = '../rna.py'
-good_string = 'GATGGAACTTGACTACGTAAATT'
-bad_string = 'GATZZZZZZGGAACTTGACTACGTAAATT'
+good_input = 'test_data/good_input_rna.txt'
+bad_input = 'test_data/bad_input_rna.txt'
 good_output = 'GAUGGAACUUGACUACGUAAAUU'
 
 # --------------------------------------------------
@@ -36,7 +36,7 @@ def test_no_args():
 
     rv, out = getstatusoutput(f'{prg}')
     assert rv != 0
-    error_string = 'following arguments are required: str'
+    error_string = 'following arguments are required: FILE'
     assert re.findall(error_string, out, re.IGNORECASE)
 
 
@@ -44,7 +44,7 @@ def test_no_args():
 def test_bad_args():
     """Test with a bad string == other than A, T, C, G"""
 
-    rv, out = getstatusoutput(f'{prg} "{bad_string}"')
+    rv, out = getstatusoutput(f'{prg} "{bad_input}"')
     assert rv != 0
     error_string = "Bad nucleotide sequence. Only ATCG allowed."
     assert re.findall(error_string, out, re.IGNORECASE)
@@ -54,7 +54,7 @@ def test_bad_args():
 def test_good_args():
     """Test with a good string"""
 
-    rv, out = getstatusoutput(f'{prg} "{good_string}"')
+    rv, out = getstatusoutput(f'{prg} "{good_input}"')
     assert rv == 0
     assert "U" in out
 
@@ -63,7 +63,7 @@ def test_good_args():
 def test_good_output():
     """Test output with a good string"""
 
-    rv, out = getstatusoutput(f'{prg} "{good_string}"')
+    rv, out = getstatusoutput(f'{prg} "{good_input}"')
     assert rv == 0
     assert out == good_output
 

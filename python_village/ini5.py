@@ -47,9 +47,11 @@ def main():
 
     even_lines = get_even_lines(list_lines)
 
-    with open('output_ini5.txt', 'w') as out:
-        for line in even_lines:
-            out.write(line+'\n')
+    # with open('output_ini5.txt', 'w') as out:
+    #     for line in even_lines:
+    #         out.write(line+'\n')
+
+    print("\n".join(even_lines))
 
 
 # --------------------------------------------------
